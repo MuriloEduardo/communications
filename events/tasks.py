@@ -15,9 +15,9 @@ def postprocessing(*args, **kwargs):
     )
 
     result = twilio_service.send(
-        from_=f"whatsapp:{kwargs.get('from_')}",
-        to_number=f"whatsapp:{kwargs.get('to')}",
-        message=kwargs.get("message", "Hello from Twilio via WhatsApp!"),
+        from_=kwargs.get("from_"),
+        to_number=kwargs.get("to"),
+        message=kwargs.get("message", ""),
     )
 
     print("WhatsApp Message sent:", result)
