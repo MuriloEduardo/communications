@@ -13,7 +13,7 @@ class TwilioService:
         self.from_number = from_number
         self.client = Client(account_sid, auth_token)
 
-    def send(self, from_, to_number, message):
+    def send_message(self, from_, to_number, message):
         message = self.client.messages.create(
             body=message, from_=from_ or self.from_number, to=to_number
         )
@@ -21,3 +21,6 @@ class TwilioService:
         print("WhatsApp Message:", message)
 
         return message
+
+    def handle_webhook(self, message):
+        print("Handling WhatsApp webhook:", message)

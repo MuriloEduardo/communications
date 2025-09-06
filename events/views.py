@@ -6,8 +6,6 @@ from events.services import EventService
 
 @csrf_exempt
 def webhook(request):
-    if request.method == "POST" or request.method == "GET":
-        EventService().handle_webhook(request)
-    else:
-        return HttpResponse(status=405)  # Method Not Allowed
+    EventService().handle_webhook(request)
+
     return HttpResponse(status=200)

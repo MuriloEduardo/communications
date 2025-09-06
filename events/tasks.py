@@ -1,8 +1,8 @@
 from celery import shared_task
 
-from events.integrations.twilio_services import TwilioService
+from events.services import EventService
 
-twilio_service = TwilioService()
+event_service = EventService()
 
 
 @shared_task(queue="ai-postprocessing")
@@ -14,10 +14,12 @@ def postprocessing(*args, **kwargs):
         kwargs,
     )
 
-    result = twilio_service.send(
+    result = event_service.send_message(
+        to=kwargs.get("to"),
         from_=kwargs.get("from_"),
-        to_number=kwargs.get("to"),
         message=kwargs.get("message", ""),
     )
 
     print("WhatsApp Message sent:", result)
+
+    return result
