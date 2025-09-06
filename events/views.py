@@ -5,5 +5,4 @@ from events.services import EventService
 
 @csrf_exempt
 def webhook(request):
-    response = EventService().handle_webhook(request)
-    return response
+    return EventService().handle_webhook(request)

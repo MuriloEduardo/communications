@@ -1,5 +1,7 @@
 import os
 from celery import Celery
+from django.http import HttpResponse
+
 from events.integrations.twilio_services import TwilioService
 from events.integrations.whatsapp_services import WhatsAppService
 
@@ -38,7 +40,9 @@ class EventService:
                 },
             )
 
-            print(f"Enviando mensagem via provider task: {result}")
+            print("Task dispatched to Celery:", result)
+
+            return HttpResponse(status=200)
 
     def send_message(self, to, from_, message):
         """

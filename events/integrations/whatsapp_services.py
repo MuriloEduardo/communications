@@ -1,6 +1,7 @@
 import os
 import json
 import requests
+from django.http import HttpResponse
 from typing import Any, Dict, Optional
 from events.integrations.base import MessagingIntegration
 
@@ -116,18 +117,14 @@ class WhatsAppService(MessagingIntegration):
         return resp_json
 
     def verify_webhook_token(self, request):
-        print("Handling WhatsApp webhook verification")
-
         mode = request.GET.get("hub.mode")
         token = request.GET.get("hub.verify_token")
         challenge = request.GET.get("hub.challenge")
 
         if mode == "subscribe" and token == self.webhook_verify_token:
-            print("Webhook verified successfully")
-            return challenge
+            return HttpResponse(challenge, status=200)
         else:
-            print("Webhook verification failed")
-            return "Verification token mismatch", 403
+            return HttpResponse("Verification token mismatch", status=403)
 
     def get_props(self, request):
         return (

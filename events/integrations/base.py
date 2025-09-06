@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from typing import Any
 
 
 class MessagingIntegration(ABC):
@@ -29,5 +30,11 @@ class MessagingIntegration(ABC):
         """
 
     @abstractmethod
-    def verify_webhook_token(self, request):
-        """Verify webhook token (implementation-specific)."""
+    def verify_webhook_token(self, request) -> Any:
+        """Verify webhook token (implementation-specific).
+
+        Implementations may return one of:
+        - a Django HttpResponse
+        - a raw challenge string (to be returned with 200)
+        - a tuple (body, status)
+        """

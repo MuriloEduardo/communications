@@ -1,5 +1,6 @@
 import os
 from twilio.rest import Client
+from django.http import HttpResponse
 from events.integrations.base import MessagingIntegration
 
 
@@ -32,5 +33,8 @@ class TwilioService(MessagingIntegration):
         )
 
     def verify_webhook_token(self, request):
-        # Twilio does not require token verification for webhooks
-        pass
+        """Twilio webhooks don't require verification; return 200.
+
+        Return a Django HttpResponse so callers can forward it directly.
+        """
+        return HttpResponse(status=200)
