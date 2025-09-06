@@ -18,6 +18,5 @@ class MessagingIntegration(ABC):
         """
 
     @abstractmethod
-    def handle_webhook(self, message):
-        """Handle incoming webhook payload (implementation-specific).
-        """
+    def handle_webhook(self, request) -> tuple:
+        """Handle incoming webhook payload (implementation-specific)."""

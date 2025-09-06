@@ -1,7 +1,5 @@
 import os
-
 from twilio.rest import Client
-
 from events.integrations.base import MessagingIntegration
 
 
@@ -13,7 +11,7 @@ class TwilioService(MessagingIntegration):
         from_number=os.getenv("TWILIO_FROM_NUMBER"),
     ):
         self.from_number = from_number
-        # Delay client creation if credentials missing - fail fast when used
+
         if not account_sid or not auth_token:
             raise ValueError("Twilio credentials not configured")
 
@@ -24,9 +22,11 @@ class TwilioService(MessagingIntegration):
             body=message, from_=from_ or self.from_number, to=to_number
         )
 
-        print("WhatsApp Message:", message)
-
         return message
 
-    def handle_webhook(self, message):
-        print("Handling WhatsApp webhook:", message)
+    def handle_webhook(self, request):
+        return (
+            request.POST.get("To"),
+            request.POST.get("From"),
+            request.POST.get("Body"),
+        )
