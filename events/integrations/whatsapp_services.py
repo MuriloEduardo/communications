@@ -127,8 +127,18 @@ class WhatsAppService(MessagingIntegration):
             return HttpResponse("Verification token mismatch", status=403)
 
     def get_props(self, request):
+        data = json.loads(request.body)
+
+        from_ = data["entry"][0]["changes"][0]["value"]["messages"][0]["from"]
+        to = data["entry"][0]["changes"][0]["value"]["metadata"]["display_phone_number"]
+        body = (
+            data["entry"][0]["changes"][0]["value"]["messages"][0]
+            .get("text", {})
+            .get("body", "")
+        )
+
         return (
-            request.POST.get("To"),
-            request.POST.get("From"),
-            request.POST.get("Body"),
+            to,
+            from_,
+            body,
         )
