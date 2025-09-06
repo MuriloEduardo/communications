@@ -10,7 +10,7 @@ def postprocessing(*args, **kwargs):
     print("Postprocessing task executed with args:", args, "and kwargs:", kwargs)
 
     result = twilio_service.send(
-        to_number="whatsapp:+5551974019092",
+        to_number="whatsapp:+555174019092",
         message="Postprocessing task completed successfully.",
     )
 
