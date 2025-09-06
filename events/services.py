@@ -28,6 +28,11 @@ class EventService:
         if request.method == "GET":
             return self._integration.verify_webhook_token(request)
         else:
+            should_process_request = self._integration.should_process_request(request)
+
+            if not should_process_request:
+                return HttpResponse("No processing needed", status=200)
+
             to, from_, input_ = self._integration.get_props(request)
 
             result = self.celery_client.send_task(

@@ -38,3 +38,7 @@ class TwilioService(MessagingIntegration):
         Return a Django HttpResponse so callers can forward it directly.
         """
         return HttpResponse(status=200)
+
+    def should_process_request(self, request) -> bool:
+        """Process all incoming requests."""
+        return True

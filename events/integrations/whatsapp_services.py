@@ -30,10 +30,6 @@ class WhatsAppService(MessagingIntegration):
         from_: Optional[str],
         to_number: str,
         message: Any = None,
-        message_type: str = "template",
-        template_name: Optional[str] = None,
-        language_code: str = "en_US",
-        components: Optional[Dict] = None,
         timeout: int = 10,
     ) -> Dict:
         """Send a message via Facebook Graph API (WhatsApp).
@@ -68,36 +64,12 @@ class WhatsAppService(MessagingIntegration):
             "Content-Type": "application/json",
         }
 
-        if message_type == "template":
-            if not template_name:
-                raise ValueError("template_name is required for template messages")
-
-            payload: Dict[str, Any] = {
-                "messaging_product": "whatsapp",
-                "to": to_number,
-                "type": "template",
-                "template": {
-                    "name": template_name,
-                    "language": {"code": language_code},
-                },
-            }
-
-            if components:
-                payload["template"]["components"] = components
-
-        elif message_type == "text":
-            payload = {
-                "messaging_product": "whatsapp",
-                "to": to_number,
-                "type": "text",
-                "text": {"body": str(message)},
-            }
-
-        elif message_type == "custom" and isinstance(message, dict):
-            payload = message
-
-        else:
-            raise ValueError("Unsupported message_type or invalid message payload")
+        payload = {
+            "type": "text",
+            "to": to_number,
+            "text": {"body": str(message)},
+            "messaging_product": "whatsapp",
+        }
 
         print("WhatsApp API request url:", url)
         print("WhatsApp API payload:", json.dumps(payload))
@@ -130,7 +102,7 @@ class WhatsAppService(MessagingIntegration):
         data = json.loads(request.body)
 
         from_ = data["entry"][0]["changes"][0]["value"]["messages"][0]["from"]
-        to = data["entry"][0]["changes"][0]["value"]["metadata"]["display_phone_number"]
+        to = data["entry"][0]["changes"][0]["value"]["metadata"]["phone_number_id"]
         body = (
             data["entry"][0]["changes"][0]["value"]["messages"][0]
             .get("text", {})
@@ -142,3 +114,12 @@ class WhatsAppService(MessagingIntegration):
             from_,
             body,
         )
+
+    def should_process_request(self, request) -> bool:
+        """Process all incoming requests."""
+        data = json.loads(request.body)
+
+        if "messages" not in data["entry"][0]["changes"][0]["value"]:
+            return False
+
+        return True

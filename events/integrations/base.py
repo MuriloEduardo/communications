@@ -38,3 +38,15 @@ class MessagingIntegration(ABC):
         - a raw challenge string (to be returned with 200)
         - a tuple (body, status)
         """
+
+    @abstractmethod
+    def should_process_request(self, request) -> bool:
+        """Determine if the incoming request should be processed.
+
+        Args:
+            request: incoming HTTP request
+
+        Returns:
+            bool: True if the request should be processed, False otherwise
+        """
+        return True
