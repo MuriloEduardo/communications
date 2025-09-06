@@ -18,5 +18,16 @@ class MessagingIntegration(ABC):
         """
 
     @abstractmethod
-    def handle_webhook(self, request) -> tuple:
-        """Handle incoming webhook payload (implementation-specific)."""
+    def get_props(self, request) -> tuple:
+        """Extract properties from incoming webhook request.
+
+        Args:
+            request: incoming HTTP request
+
+        Returns:
+            tuple: (to, from_, message)
+        """
+
+    @abstractmethod
+    def verify_webhook_token(self, request):
+        """Verify webhook token (implementation-specific)."""

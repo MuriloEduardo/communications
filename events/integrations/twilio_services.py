@@ -24,9 +24,13 @@ class TwilioService(MessagingIntegration):
 
         return message
 
-    def handle_webhook(self, request):
+    def get_props(self, request):
         return (
             request.POST.get("To"),
             request.POST.get("From"),
             request.POST.get("Body"),
         )
+
+    def verify_webhook_token(self, request):
+        # Twilio does not require token verification for webhooks
+        pass

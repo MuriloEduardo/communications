@@ -115,7 +115,21 @@ class WhatsAppService(MessagingIntegration):
 
         return resp_json
 
-    def handle_webhook(self, request):
+    def verify_webhook_token(self, request):
+        print("Handling WhatsApp webhook verification")
+
+        mode = request.GET.get("hub.mode")
+        token = request.GET.get("hub.verify_token")
+        challenge = request.GET.get("hub.challenge")
+
+        if mode == "subscribe" and token == self.webhook_verify_token:
+            print("Webhook verified successfully")
+            return challenge
+        else:
+            print("Webhook verification failed")
+            return "Verification token mismatch", 403
+
+    def get_props(self, request):
         return (
             request.POST.get("To"),
             request.POST.get("From"),

@@ -23,19 +23,22 @@ class EventService:
         """
         Process incoming webhook and delegate to Celery task.
         """
-        to, from_, input_ = self._integration.handle_webhook(request)
+        if request.method == "GET":
+            return self._integration.verify_webhook_token(request)
+        else:
+            to, from_, input_ = self._integration.get_props(request)
 
-        result = self.celery_client.send_task(
-            "executor.tasks.run",
-            queue="toprocess",
-            kwargs={
-                "to": to,
-                "from_": from_,
-                "input": input_,
-            },
-        )
+            result = self.celery_client.send_task(
+                "executor.tasks.run",
+                queue="toprocess",
+                kwargs={
+                    "to": to,
+                    "from_": from_,
+                    "input": input_,
+                },
+            )
 
-        print(f"Enviando mensagem via provider task: {result}")
+            print(f"Enviando mensagem via provider task: {result}")
 
     def send_message(self, to, from_, message):
         """
