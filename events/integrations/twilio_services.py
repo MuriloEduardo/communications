@@ -2,8 +2,10 @@ import os
 
 from twilio.rest import Client
 
+from events.integrations.base import MessagingIntegration
 
-class TwilioService:
+
+class TwilioService(MessagingIntegration):
     def __init__(
         self,
         auth_token=os.getenv("TWILIO_AUTH_TOKEN"),
@@ -11,6 +13,10 @@ class TwilioService:
         from_number=os.getenv("TWILIO_FROM_NUMBER"),
     ):
         self.from_number = from_number
+        # Delay client creation if credentials missing - fail fast when used
+        if not account_sid or not auth_token:
+            raise ValueError("Twilio credentials not configured")
+
         self.client = Client(account_sid, auth_token)
 
     def send_message(self, from_, to_number, message):
