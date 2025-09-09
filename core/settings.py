@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -126,3 +127,10 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Celery
 CELERY_TIMEZONE = TIME_ZONE
+CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_URL", "redis://localhost:6379/0")
+CELERY_RESULT_BACKEND = os.environ.get(
+    "CELERY_RESULT_BACKEND", "redis://localhost:6379/0"
+)
+
+# Static files configuration for production
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")

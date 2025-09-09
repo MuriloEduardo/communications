@@ -1,3 +1,5 @@
 django
 celery
 twilio
+requests
+gunicorn
