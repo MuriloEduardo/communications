@@ -24,46 +24,38 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-s$#$^(_fz=-f8m+9n8d86lqq+@kn)59=zsxcn*x(iz1*d=y5)7"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', 'True').lower() == 'true'
+DEBUG = os.environ.get("DEBUG", "True").lower() == "true"
 
 ALLOWED_HOSTS = [
     "*",  # Para desenvolvimento
     "maestrocommunications.shop",
     "www.maestrocommunications.shop",
-    "communications-env.eba-nhmup22q.us-west-2.elasticbeanstalk.com"
+    "communications-env.eba-nhmup22q.us-west-2.elasticbeanstalk.com",
 ]
 
 # HTTPS/SSL Settings
 # Detectar se está usando CloudFlare SSL
-USE_CLOUDFLARE_SSL = os.environ.get(
-    'USE_CLOUDFLARE_SSL', 'False'
-).lower() == 'true'
+USE_CLOUDFLARE_SSL = os.environ.get("USE_CLOUDFLARE_SSL", "False").lower() == "true"
 
 if USE_CLOUDFLARE_SSL:
     # CloudFlare SSL configuration
-    SECURE_PROXY_SSL_HEADER = ('HTTP_CF_VISITOR', '{"scheme":"https"}')
+    SECURE_PROXY_SSL_HEADER = ("HTTP_CF_VISITOR", '{"scheme":"https"}')
 else:
     # AWS Load Balancer SSL configuration
-    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
-SECURE_SSL_REDIRECT = os.environ.get(
-    'SECURE_SSL_REDIRECT', 'False'
-).lower() == 'true'
-SECURE_HSTS_SECONDS = int(os.environ.get('SECURE_HSTS_SECONDS', '0'))
-SECURE_HSTS_INCLUDE_SUBDOMAINS = os.environ.get(
-    'SECURE_HSTS_INCLUDE_SUBDOMAINS', 'False'
-).lower() == 'true'
-SECURE_HSTS_PRELOAD = os.environ.get(
-    'SECURE_HSTS_PRELOAD', 'False'
-).lower() == 'true'
+SECURE_SSL_REDIRECT = os.environ.get("SECURE_SSL_REDIRECT", "False").lower() == "true"
+SECURE_HSTS_SECONDS = int(os.environ.get("SECURE_HSTS_SECONDS", "0"))
+SECURE_HSTS_INCLUDE_SUBDOMAINS = (
+    os.environ.get("SECURE_HSTS_INCLUDE_SUBDOMAINS", "False").lower() == "true"
+)
+SECURE_HSTS_PRELOAD = os.environ.get("SECURE_HSTS_PRELOAD", "False").lower() == "true"
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_BROWSER_XSS_FILTER = True
-SESSION_COOKIE_SECURE = os.environ.get(
-    'SESSION_COOKIE_SECURE', 'False'
-).lower() == 'true'
-CSRF_COOKIE_SECURE = os.environ.get(
-    'CSRF_COOKIE_SECURE', 'False'
-).lower() == 'true'
+SESSION_COOKIE_SECURE = (
+    os.environ.get("SESSION_COOKIE_SECURE", "False").lower() == "true"
+)
+CSRF_COOKIE_SECURE = os.environ.get("CSRF_COOKIE_SECURE", "False").lower() == "true"
 
 
 # Application definition
