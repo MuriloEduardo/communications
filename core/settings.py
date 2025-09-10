@@ -26,12 +26,7 @@ SECRET_KEY = "django-insecure-s$#$^(_fz=-f8m+9n8d86lqq+@kn)59=zsxcn*x(iz1*d=y5)7
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DEBUG", "True").lower() == "true"
 
-ALLOWED_HOSTS = [
-    "*",  # Para desenvolvimento
-    "maestrocommunications.shop",
-    "www.maestrocommunications.shop",
-    "communications-env.eba-nhmup22q.us-west-2.elasticbeanstalk.com",
-]
+ALLOWED_HOSTS = ["*"]
 
 # HTTPS/SSL Settings
 # Detectar se está usando CloudFlare SSL
@@ -67,6 +62,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django_celery_results",  # Para armazenar resultados do Celery no banco de dados
     # Own apps
     "events",
 ]

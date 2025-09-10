@@ -3,3 +3,4 @@ celery
 twilio
 requests
 gunicorn
+django-celery-results
