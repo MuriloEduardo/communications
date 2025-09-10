@@ -1,1 +1,1 @@
-worker: echo "Worker started successfully" && sleep 30
+worker: celery -A core worker -l INFO -Q ai-postprocessing
