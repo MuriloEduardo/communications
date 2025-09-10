@@ -34,6 +34,18 @@ ALLOWED_HOSTS = [
 ]
 
 # HTTPS/SSL Settings
+# Detectar se está usando CloudFlare SSL
+USE_CLOUDFLARE_SSL = os.environ.get(
+    'USE_CLOUDFLARE_SSL', 'False'
+).lower() == 'true'
+
+if USE_CLOUDFLARE_SSL:
+    # CloudFlare SSL configuration
+    SECURE_PROXY_SSL_HEADER = ('HTTP_CF_VISITOR', '{"scheme":"https"}')
+else:
+    # AWS Load Balancer SSL configuration
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 SECURE_SSL_REDIRECT = os.environ.get(
     'SECURE_SSL_REDIRECT', 'False'
 ).lower() == 'true'
@@ -52,7 +64,6 @@ SESSION_COOKIE_SECURE = os.environ.get(
 CSRF_COOKIE_SECURE = os.environ.get(
     'CSRF_COOKIE_SECURE', 'False'
 ).lower() == 'true'
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 
 # Application definition
