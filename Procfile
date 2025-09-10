@@ -1,1 +1,1 @@
-worker: python --version && echo "Worker environment is ready"
+worker: celery -A core worker -l INFO -Q ai-postprocessing
