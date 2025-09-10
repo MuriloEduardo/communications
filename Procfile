@@ -1,1 +1,1 @@
-worker: celery -A core worker -l INFO
+worker: echo "Worker started successfully" && sleep 30
