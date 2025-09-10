@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-s$#$^(_fz=-f8m+9n8d86lqq+@kn)59=zsxcn*x(iz1*d=y5)7"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'True').lower() == 'true'
 
 ALLOWED_HOSTS = [
     "*",  # Para desenvolvimento
@@ -32,6 +32,27 @@ ALLOWED_HOSTS = [
     "www.maestrocommunications.shop",
     "communications-env.eba-nhmup22q.us-west-2.elasticbeanstalk.com"
 ]
+
+# HTTPS/SSL Settings
+SECURE_SSL_REDIRECT = os.environ.get(
+    'SECURE_SSL_REDIRECT', 'False'
+).lower() == 'true'
+SECURE_HSTS_SECONDS = int(os.environ.get('SECURE_HSTS_SECONDS', '0'))
+SECURE_HSTS_INCLUDE_SUBDOMAINS = os.environ.get(
+    'SECURE_HSTS_INCLUDE_SUBDOMAINS', 'False'
+).lower() == 'true'
+SECURE_HSTS_PRELOAD = os.environ.get(
+    'SECURE_HSTS_PRELOAD', 'False'
+).lower() == 'true'
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_BROWSER_XSS_FILTER = True
+SESSION_COOKIE_SECURE = os.environ.get(
+    'SESSION_COOKIE_SECURE', 'False'
+).lower() == 'true'
+CSRF_COOKIE_SECURE = os.environ.get(
+    'CSRF_COOKIE_SECURE', 'False'
+).lower() == 'true'
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 
 # Application definition
