@@ -1,1 +1,1 @@
-worker: celery -A core worker -l INFO -Q ai-postprocessing
+worker: python manage.py check --deploy
